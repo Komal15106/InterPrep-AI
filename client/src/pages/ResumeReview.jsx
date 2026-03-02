@@ -26,7 +26,7 @@ const ResumeReview = () => {
             } else if (file.type === 'application/pdf') {
                 const formData = new FormData();
                 formData.append('pdfFile', file);
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const apiUrl = import.meta.env.VITE_API_URL || 'https://interprep-ai.onrender.com';
 
                 const response = await fetch(`${apiUrl}/api/parse-pdf`, {
                     method: 'POST',
@@ -69,7 +69,7 @@ const ResumeReview = () => {
         }, 5000);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://interprep-ai.onrender.com';
             const response = await fetch(`${apiUrl}/api/resume`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
