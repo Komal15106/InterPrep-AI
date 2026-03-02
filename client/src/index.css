@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  background-color: var(--color-slate-950);
+  color: var(--color-slate-200);
+
+  /* Default White Theme variables */
+  --color-slate-950: #f8fafc;
+  /* light background */
+  --color-slate-900: #f1f5f9;
+  /* light cards */
+  --color-slate-800: #e2e8f0;
+  /* darker borders/hover */
+  --color-slate-700: #cbd5e1;
+  /* borders */
+  --color-slate-600: #94a3b8;
+  /* muted elements */
+  --color-slate-500: #64748b;
+  /* muted text */
+  --color-slate-400: #475569;
+  /* descriptive text */
+  --color-slate-300: #334155;
+  /* normal text */
+  --color-slate-200: #1e293b;
+  /* headers text */
+  --color-white: #0f172a;
+  /* utility white classes override to dark */
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Dark Indigo Theme */
+.theme-indigo {
+  color-scheme: dark;
+  --color-slate-950: #020617;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-white: #ffffff;
+
+  /* Original indigo colors stay default for this */
+}
+
+/* White Pink Blossom Theme */
+.theme-blossom {
+  color-scheme: light;
+  --color-slate-950: #fafaf9;
+  /* Off-white background */
+  --color-slate-900: #fdf2f8;
+  --color-slate-800: #fce7f3;
+  --color-slate-700: #fbcfe8;
+  --color-slate-600: #f9a8d4;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+
+  --color-white: #0f172a;
+
+  --color-indigo-400: #ec4899;
+  --color-indigo-500: #db2777;
+  --color-indigo-600: #be185d;
+  --color-indigo-700: #9d174d;
+
+  --color-purple-400: #fb7185;
+  --color-pink-400: #f472b6;
+}
+
+/* Cyberpunk (Black and Neon) Theme */
+.theme-cyberpunk {
+  color-scheme: dark;
+  --color-slate-950: #000000;
+  --color-slate-900: #050505;
+  --color-slate-800: #111111;
+  --color-slate-700: #222222;
+  --color-slate-600: #333333;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-white: #ffffff;
+
+  --color-indigo-400: #39ff14;
+  --color-indigo-500: #32cd32;
+  --color-indigo-600: #228b22;
+  --color-indigo-700: #006400;
+
+  --color-purple-400: #ff00ff;
+  --color-pink-400: #00ffff;
+}
+
+/* Parallax Icon Colors */
+:root {
+  --parallax-blue: #1e40af;
+  /* blue-800 */
+  --parallax-violet: #5b21b6;
+  /* violet-800 */
+  --parallax-pink: #9d174d;
+  /* pink-800 */
+  --parallax-emerald: #065f46;
+  /* emerald-800 */
+  --parallax-amber: #92400e;
+  /* amber-800 */
+  --parallax-opacity: 0.8;
+  /* thick opacity for very dark icons in light modes */
+}
+
+.theme-indigo,
+.theme-cyberpunk {
+  --parallax-blue: #2563eb;
+  /* blue-600 */
+  --parallax-violet: #7c3aed;
+  /* violet-600 */
+  --parallax-pink: #db2777;
+  /* pink-600 */
+  --parallax-emerald: #059669;
+  /* emerald-600 */
+  --parallax-amber: #d97706;
+  /* amber-600 */
+  --parallax-opacity: 0.6;
+  /* darker glowing opacity for dark mode */
+}
+
+.parallax-icon-blue {
+  color: var(--parallax-blue);
+  opacity: var(--parallax-opacity);
+}
+
+.parallax-icon-violet {
+  color: var(--parallax-violet);
+  opacity: var(--parallax-opacity);
+}
+
+.parallax-icon-pink {
+  color: var(--parallax-pink);
+  opacity: var(--parallax-opacity);
+}
+
+.parallax-icon-emerald {
+  color: var(--parallax-emerald);
+  opacity: var(--parallax-opacity);
+}
+
+.parallax-icon-amber {
+  color: var(--parallax-amber);
+  opacity: var(--parallax-opacity);
+}
