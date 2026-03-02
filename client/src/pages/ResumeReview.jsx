@@ -64,10 +64,7 @@ const ResumeReview = () => {
         setLoading(true);
         setLoadingMessage('Analyzing...');
 
-        // If the request takes longer than 5 seconds, it's likely a Render cold start
-        const coldStartTimeout = setTimeout(() => {
-            setLoadingMessage('Waking up server (can take 50s)...');
-        }, 5000);
+
 
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'https://interprep-ai.onrender.com';
@@ -81,7 +78,6 @@ const ResumeReview = () => {
         } catch (error) {
             console.error("Error:", error);
         } finally {
-            clearTimeout(coldStartTimeout);
             setLoading(false);
             setLoadingMessage('Analyzing...');
         }
