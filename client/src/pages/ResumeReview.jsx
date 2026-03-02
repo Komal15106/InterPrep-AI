@@ -27,7 +27,7 @@ const ResumeReview = () => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-6 h-[calc(100vh-80px)] flex flex-col">
+        <div className="max-w-5xl mx-auto px-4 py-6 min-h-[calc(100vh-80px)] md:h-[calc(100vh-80px)] flex flex-col">
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 flex-shrink-0 flex items-center gap-3">
                 <FileText className="w-6 h-6 md:w-8 md:h-8 text-indigo-400" />
                 AI Resume Review

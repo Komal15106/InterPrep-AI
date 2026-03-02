@@ -35,7 +35,7 @@ const Home = () => {
     }, [mouseX, mouseY]);
 
     return (
-        <div className="relative h-[calc(100vh-80px)] py-6 flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div className="relative min-h-[calc(100vh-80px)] py-6 flex flex-col items-center justify-center text-center px-4 overflow-x-hidden">
 
             {/* Interactive Background Parallax Icons */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">

@@ -42,22 +42,22 @@ const Navbar = () => {
     return (
         <nav className="bg-slate-900/80 backdrop-blur-md border-b border-slate-700 sticky top-0 z-50 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <Link to="/" className="flex items-center gap-3 text-indigo-400 font-bold text-3xl group">
-                        <BrainCircuit className="w-10 h-10 group-hover:rotate-12 transition-transform" />
-                        <span>InterPrep AI</span>
+                <div className="flex items-center justify-between h-16 sm:h-20">
+                    <Link to="/" className="flex items-center gap-2 sm:gap-3 text-indigo-400 font-bold text-xl sm:text-3xl group truncate">
+                        <BrainCircuit className="w-6 h-6 sm:w-10 sm:h-10 group-hover:rotate-12 transition-transform shrink-0" />
+                        <span className="truncate">InterPrep AI</span>
                     </Link>
-                    <div className="flex items-center gap-8">
-                        <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-lg">
-                            <BrainCircuit className="w-6 h-6" />
+                    <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+                        <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                            <BrainCircuit className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span className="hidden sm:inline">Home</span>
                         </Link>
-                        <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-lg">
-                            <LayoutDashboard className="w-6 h-6" />
+                        <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                            <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span className="hidden sm:inline">Dashboard</span>
                         </Link>
-                        <Link to="/library" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-lg">
-                            <FileText className="w-6 h-6" />
+                        <Link to="/library" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                            <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span className="hidden sm:inline">Library</span>
                         </Link>
 
