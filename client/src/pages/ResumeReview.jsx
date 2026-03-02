@@ -34,7 +34,8 @@ const ResumeReview = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to extract PDF text from server.");
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || `Server responded with ${response.status}`);
                 }
 
                 const data = await response.json();

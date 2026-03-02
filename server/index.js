@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const Object = require('pdf-parse'); // pdf-parse might globally register
 const pdfParse = require('pdf-parse');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -31,7 +30,7 @@ app.post('/api/parse-pdf', upload.single('pdfFile'), async (req, res) => {
         res.json({ text: data.text });
     } catch (error) {
         console.error("PDF Parse Error:", error);
-        res.status(500).json({ error: 'Failed to read PDF file format.' });
+        res.status(500).json({ error: `Parsing error: ${error.message || error}` });
     }
 });
 
