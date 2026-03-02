@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react';
+import * as pdfjsLib from 'pdfjs-dist';
+import mammoth from 'mammoth';
 
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
@@ -13,21 +15,41 @@ const ResumeReview = () => {
         if (!file) return;
 
         setFileName(file.name);
+        setLoading(true);
 
-        // For text files, we can read directly
-        if (file.type === 'text/plain') {
-            const reader = new FileReader();
-            reader.onload = (e) => setResumeText(e.target.result);
-            reader.readAsText(file);
-        } else {
-            // For PDFs/DOCX we'll notify the user it's better to paste text for now 
-            // since robust purely client-side parsing without heavy libs is tricky
-            alert("For best results with PDF or DOCX files, please open the file on your device, copy the text, and paste it directly into the box. \n\nWe will implement full direct document reading soon!");
+        try {
+            if (file.type === 'text/plain') {
+                const reader = new FileReader();
+                reader.onload = (e) => setResumeText(e.target.result);
+                reader.readAsText(file);
+            } else if (file.type === 'application/pdf') {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + "\n";
+                }
+                setResumeText(fullText);
+            } else if (file.name.endsWith('.docx') || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer });
+                setResumeText(result.value);
+            } else {
+                alert("Unsupported file format. Please upload .txt, .pdf, or .docx");
+                setFileName('');
+            }
+        } catch (error) {
+            console.error("Error reading file:", error);
+            alert("Error reading file. Please try pasting the text instead.");
             setFileName('');
+        } finally {
+            setLoading(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
         }
-
-        // Reset input so same file can be selected again
-        if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
     const handleSubmit = async () => {
