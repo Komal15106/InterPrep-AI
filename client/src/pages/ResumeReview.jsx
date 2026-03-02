@@ -47,7 +47,7 @@ const ResumeReview = () => {
             }
         } catch (error) {
             console.error("Error reading file:", error);
-            alert("Error reading file. Please try pasting the text instead.");
+            alert(`Error reading file: ${error.message || error}`);
             setFileName('');
         } finally {
             setLoading(false);
