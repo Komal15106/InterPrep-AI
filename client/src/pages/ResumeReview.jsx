@@ -60,17 +60,10 @@ const ResumeReview = () => {
             <div className="grid md:grid-cols-2 gap-6 flex-grow min-h-0 pb-6">
                 <div className="flex flex-col h-full">
                     <div className="bg-slate-800 p-5 rounded-2xl border border-slate-700 flex flex-col h-full">
-                        <label className="block text-slate-300 font-medium mb-3 flex-shrink-0">
-                            Paste your resume content here
-                        </label>
-                        <textarea
-                            value={resumeText}
-                            onChange={(e) => setResumeText(e.target.value)}
-                            className="w-full flex-grow bg-slate-900 border-slate-700 rounded-xl p-4 text-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none font-mono text-sm min-h-0"
-                            placeholder="Experience&#10;- Senior Developer at Tech Co...&#10;&#10;Education&#10;- BS Computer Science..."
-                        />
-
-                        <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
+                        <div className="flex items-end justify-between mb-3 flex-shrink-0">
+                            <label className="text-slate-300 font-medium">
+                                Paste your resume content here
+                            </label>
                             <input
                                 type="file"
                                 accept=".txt,.pdf,.doc,.docx"
@@ -80,30 +73,36 @@ const ResumeReview = () => {
                             />
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full sm:w-auto px-4 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2 border border-slate-600"
+                                className="flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors"
                             >
-                                <FileUp className="w-5 h-5" />
-                                <span className="text-sm truncate max-w-[150px]">{fileName || "Upload File"}</span>
-                            </button>
-
-                            <button
-                                onClick={handleSubmit}
-                                disabled={loading || !resumeText.trim()}
-                                className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                            >
-                                {loading ? (
-                                    <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Analyzing...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Upload className="w-5 h-5" />
-                                        Analyze Resume
-                                    </>
-                                )}
+                                <FileUp className="w-4 h-4" />
+                                <span className="truncate max-w-[120px]">{fileName || "Upload txt file"}</span>
                             </button>
                         </div>
+                        <textarea
+                            value={resumeText}
+                            onChange={(e) => setResumeText(e.target.value)}
+                            className="w-full flex-grow bg-slate-900 border-slate-700 rounded-xl p-4 text-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none font-mono text-sm min-h-0"
+                            placeholder="Experience&#10;- Senior Developer at Tech Co...&#10;&#10;Education&#10;- BS Computer Science..."
+                        />
+
+                        <button
+                            onClick={handleSubmit}
+                            disabled={loading || !resumeText.trim()}
+                            className="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    Analyzing...
+                                </>
+                            ) : (
+                                <>
+                                    <Upload className="w-5 h-5" />
+                                    Analyze Resume
+                                </>
+                            )}
+                        </button>
                     </div>
                 </div>
             </div>
