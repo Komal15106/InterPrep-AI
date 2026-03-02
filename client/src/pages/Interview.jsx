@@ -35,6 +35,13 @@ const Interview = () => {
         scrollToBottom();
     }, [messages]);
 
+    // Cleanup speech on unmount so it stops talking if user leaves page
+    useEffect(() => {
+        return () => {
+            window.speechSynthesis.cancel();
+        };
+    }, []);
+
     // Load Voices
     useEffect(() => {
         let isMounted = true;
