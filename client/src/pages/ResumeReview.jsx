@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react';
+import { FileText, Upload, CheckCircle, AlertCircle, FileUp, Trash2 } from 'lucide-react';
 import mammoth from 'mammoth';
 
 const ResumeReview = () => {
@@ -118,6 +118,20 @@ const ResumeReview = () => {
                                 <FileUp className="w-5 h-5" />
                                 <span className="text-sm truncate max-w-[150px]">{fileName || "Upload File"}</span>
                             </button>
+
+                            {resumeText && (
+                                <button
+                                    onClick={() => {
+                                        setResumeText('');
+                                        setFileName('');
+                                        setResult(null);
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
+                                    }}
+                                    className="w-full sm:w-auto px-4 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 border border-red-500/20"
+                                >
+                                    <Trash2 className="w-5 h-5" />
+                                </button>
+                            )}
 
                             <button
                                 onClick={handleSubmit}
