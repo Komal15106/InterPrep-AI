@@ -1,7 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import mammoth from 'mammoth';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
@@ -25,7 +28,6 @@ const ResumeReview = () => {
                 reader.readAsText(file);
             } else if (file.type === 'application/pdf') {
                 const arrayBuffer = await file.arrayBuffer();
-                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                 let fullText = "";
                 for (let i = 1; i <= pdf.numPages; i++) {
