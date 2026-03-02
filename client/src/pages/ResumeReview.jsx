@@ -3,7 +3,7 @@ import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react
 import * as pdfjsLib from 'pdfjs-dist';
 import mammoth from 'mammoth';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
