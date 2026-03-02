@@ -47,22 +47,24 @@ const Navbar = () => {
                         <BrainCircuit className="w-6 h-6 sm:w-10 sm:h-10 group-hover:rotate-12 transition-transform shrink-0" />
                         <span className="truncate">InterPrep AI</span>
                     </Link>
-                    <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
-                        <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
-                            <BrainCircuit className="w-5 h-5 sm:w-6 sm:h-6" />
-                            <span className="hidden sm:inline">Home</span>
-                        </Link>
-                        <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
-                            <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6" />
-                            <span className="hidden sm:inline">Dashboard</span>
-                        </Link>
-                        <Link to="/library" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
-                            <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
-                            <span className="hidden sm:inline">Library</span>
-                        </Link>
+                    <div className="flex items-center">
+                        <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+                            <Link to="/" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                                <BrainCircuit className="w-5 h-5 sm:w-6 sm:h-6" />
+                                <span className="hidden sm:inline">Home</span>
+                            </Link>
+                            <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                                <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6" />
+                                <span className="hidden sm:inline">Dashboard</span>
+                            </Link>
+                            <Link to="/library" className="flex items-center gap-2 text-slate-300 hover:text-white hover:text-indigo-400 transition-colors font-medium text-base sm:text-lg shrink-0">
+                                <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
+                                <span className="hidden sm:inline">Library</span>
+                            </Link>
+                        </div>
 
                         {/* Theme Switcher */}
-                        <div className="relative ml-4" ref={dropdownRef}>
+                        <div className="relative ml-4 shrink-0 z-50" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsThemeOpen(!isThemeOpen)}
                                 className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-base text-white font-medium transition-colors"
