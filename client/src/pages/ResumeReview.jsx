@@ -6,6 +6,7 @@ import mammoth from 'mammoth';
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
     const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('Analyzing...');
     const [result, setResult] = useState(null);
     const [fileName, setFileName] = useState('');
     const fileInputRef = useRef(null);
@@ -56,6 +57,13 @@ const ResumeReview = () => {
         if (!resumeText.trim()) return;
 
         setLoading(true);
+        setLoadingMessage('Analyzing...');
+
+        // If the request takes longer than 5 seconds, it's likely a Render cold start
+        const coldStartTimeout = setTimeout(() => {
+            setLoadingMessage('Waking up server (can take 50s)...');
+        }, 5000);
+
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             const response = await fetch(`${apiUrl}/api/resume`, {
@@ -68,7 +76,9 @@ const ResumeReview = () => {
         } catch (error) {
             console.error("Error:", error);
         } finally {
+            clearTimeout(coldStartTimeout);
             setLoading(false);
+            setLoadingMessage('Analyzing...');
         }
     };
 
@@ -116,7 +126,7 @@ const ResumeReview = () => {
                                 {loading ? (
                                     <>
                                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Analyzing...
+                                        {loadingMessage}
                                     </>
                                 ) : (
                                     <>
