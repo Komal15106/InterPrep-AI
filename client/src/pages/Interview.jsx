@@ -37,29 +37,49 @@ const Interview = () => {
 
     // Load Voices
     useEffect(() => {
+        let isMounted = true;
         const loadVoices = () => {
+            if (!isMounted) return;
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
+                // Try to get English voices, otherwise use whatever is available
                 const enVoices = availableVoices.filter(v => v.lang.startsWith('en'));
-                setVoices(enVoices.length > 0 ? enVoices : availableVoices);
+                const finalVoices = enVoices.length > 0 ? enVoices : availableVoices;
 
-                if (!selectedVoiceUri && enVoices.length > 0) {
-                    const defaultFemale = enVoices.find(v =>
+                setVoices(finalVoices);
+
+                // Only set default if it hasn't been set yet
+                setSelectedVoiceUri(prev => {
+                    if (prev) return prev;
+                    const defaultFemale = finalVoices.find(v =>
                         v.name.toLowerCase().includes('samantha') ||
                         v.name.toLowerCase().includes('zira') ||
                         v.name.toLowerCase().includes('female') ||
                         v.name.toLowerCase().includes('google us english')
                     );
-                    setSelectedVoiceUri(defaultFemale ? defaultFemale.voiceURI : enVoices[0].voiceURI);
-                }
+                    return defaultFemale ? defaultFemale.voiceURI : finalVoices[0].voiceURI;
+                });
             }
         };
 
+        // Try immediately
         loadVoices();
-        if (window.speechSynthesis.onvoiceschanged !== undefined) {
-            window.speechSynthesis.onvoiceschanged = loadVoices;
-        }
-    }, [selectedVoiceUri]);
+
+        // Listeners for when voices load asynchronously
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+
+        // Fallback timeouts for Chrome on Windows which sometimes misses the event
+        const t1 = setTimeout(loadVoices, 500);
+        const t2 = setTimeout(loadVoices, 1000);
+        const t3 = setTimeout(loadVoices, 2000);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(t1);
+            clearTimeout(t2);
+            clearTimeout(t3);
+        };
+    }, []);
 
     // Initialize Speech Recognition
     useEffect(() => {
