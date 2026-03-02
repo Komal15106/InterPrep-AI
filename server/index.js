@@ -109,8 +109,19 @@ app.post('/api/interview', async (req, res) => {
 
     } catch (error) {
         console.error("Error calling Gemini API:", error);
-        console.error("Error details:", JSON.stringify(error, null, 2)); // Log full error object
-        res.json(getMockResponse());
+
+        let feedbackMessage = "I am currently experiencing high traffic and hit an API rate limit. Please wait a moment.";
+        if (error.message && (error.message.includes("429") || error.message.includes("quota"))) {
+            feedbackMessage = "API Rate Limit Exceeded. You have made too many requests. Please wait a minute or try again tomorrow.";
+        }
+
+        res.json({
+            feedback: feedbackMessage,
+            score: 0,
+            nextQuestion: "Let's pause. Please try answering again in a minute when the server API limits refresh.",
+            strengths: ["N/A"],
+            weaknesses: ["API Offline/Rate Limited"]
+        });
     }
 });
 
@@ -178,13 +189,20 @@ app.post('/api/resume', async (req, res) => {
 
     } catch (error) {
         console.error("Error calling Gemini API for resume:", error);
+
+        let errorMessage = error.message;
+        if (errorMessage.includes("429") || errorMessage.includes("quota")) {
+            errorMessage = "API Rate Limit Exceeded. You have made too many requests. Please wait a minute or try again tomorrow.";
+        } else if (errorMessage.includes("404")) {
+            errorMessage = "The selected AI model is currently unavailable on this API key.";
+        }
+
         res.json({
             score: 0,
             summary: "Error analyzing resume. Please try again.",
             improvements: [
-                `Error: ${error.message}`,
-                "Check that your API Key is valid.",
-                "Verify the server terminal for more details."
+                errorMessage,
+                "The server could not process your request at this time."
             ]
         });
     }
