@@ -1,9 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react';
-import * as pdfjsLib from 'pdfjs-dist';
 import mammoth from 'mammoth';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
@@ -27,16 +24,21 @@ const ResumeReview = () => {
                 reader.onload = (e) => setResumeText(e.target.result);
                 reader.readAsText(file);
             } else if (file.type === 'application/pdf') {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                let fullText = "";
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    const pageText = textContent.items.map(item => item.str).join(' ');
-                    fullText += pageText + "\n";
+                const formData = new FormData();
+                formData.append('pdfFile', file);
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+                const response = await fetch(`${apiUrl}/api/parse-pdf`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to extract PDF text from server.");
                 }
-                setResumeText(fullText);
+
+                const data = await response.json();
+                setResumeText(data.text);
             } else if (file.name.endsWith('.docx') || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 const arrayBuffer = await file.arrayBuffer();
                 const result = await mammoth.extractRawText({ arrayBuffer });
@@ -88,7 +90,7 @@ const ResumeReview = () => {
         <div className="max-w-5xl mx-auto px-4 py-6 min-h-[calc(100vh-80px)] md:h-[calc(100vh-80px)] flex flex-col">
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 flex-shrink-0 flex items-center gap-3">
                 <FileText className="w-6 h-6 md:w-8 md:h-8 text-indigo-400" />
-                AI Resume Review
+                AI Resume Review ⚡
             </h1>
 
             <div className="grid md:grid-cols-2 gap-6 flex-grow min-h-0 pb-6">

@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const Object = require('pdf-parse'); // pdf-parse might globally register
+const pdfParse = require('pdf-parse');
+const multer = require('multer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
@@ -15,6 +18,22 @@ app.use(express.json());
 console.log("API Key present:", !!process.env.GEMINI_API_KEY);
 console.log("API Key length:", process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.length : 0);
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Extract PDF text route
+app.post('/api/parse-pdf', upload.single('pdfFile'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No PDF uploaded' });
+        }
+        const data = await pdfParse(req.file.buffer);
+        res.json({ text: data.text });
+    } catch (error) {
+        console.error("PDF Parse Error:", error);
+        res.status(500).json({ error: 'Failed to read PDF file format.' });
+    }
+});
 
 // Mock Data for Fallback
 const mockQuestions = [
