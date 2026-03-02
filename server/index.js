@@ -68,7 +68,10 @@ app.post('/api/interview', async (req, res) => {
     try {
         const model = genAI.getGenerativeModel({
             model: "gemini-1.5-flash",
-            generationConfig: { responseMimeType: "application/json" }
+            generationConfig: {
+                responseMimeType: "application/json",
+                temperature: 0
+            }
         });
 
         const prompt = `
@@ -132,7 +135,10 @@ app.post('/api/resume', async (req, res) => {
         // Use gemini-1.5-flash-001 which is the specific version
         const model = genAI.getGenerativeModel({
             model: "gemini-1.5-flash",
-            generationConfig: { responseMimeType: "application/json" }
+            generationConfig: {
+                responseMimeType: "application/json",
+                temperature: 0
+            }
         });
 
         const prompt = `
