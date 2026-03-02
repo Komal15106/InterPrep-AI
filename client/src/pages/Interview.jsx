@@ -21,6 +21,8 @@ const Interview = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const isSpeakingRef = useRef(false);
     const [voiceEnabled, setVoiceEnabled] = useState(initialMode === 'voice');
+    const [voices, setVoices] = useState([]);
+    const [selectedVoiceUri, setSelectedVoiceUri] = useState('');
 
     const messagesEndRef = useRef(null);
     const recognitionRef = useRef(null);
@@ -32,6 +34,32 @@ const Interview = () => {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    // Load Voices
+    useEffect(() => {
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                const enVoices = availableVoices.filter(v => v.lang.startsWith('en'));
+                setVoices(enVoices.length > 0 ? enVoices : availableVoices);
+
+                if (!selectedVoiceUri && enVoices.length > 0) {
+                    const defaultFemale = enVoices.find(v =>
+                        v.name.toLowerCase().includes('samantha') ||
+                        v.name.toLowerCase().includes('zira') ||
+                        v.name.toLowerCase().includes('female') ||
+                        v.name.toLowerCase().includes('google us english')
+                    );
+                    setSelectedVoiceUri(defaultFemale ? defaultFemale.voiceURI : enVoices[0].voiceURI);
+                }
+            }
+        };
+
+        loadVoices();
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+    }, [selectedVoiceUri]);
 
     // Initialize Speech Recognition
     useEffect(() => {
@@ -119,6 +147,11 @@ const Interview = () => {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.volume = 0.5;
         utterance.rate = 0.9;
+
+        if (selectedVoiceUri) {
+            const voice = voices.find(v => v.voiceURI === selectedVoiceUri);
+            if (voice) utterance.voice = voice;
+        }
 
         utterance.onstart = () => {
             setIsSpeaking(true);
@@ -305,6 +338,21 @@ const Interview = () => {
                     >
                         {voiceEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
                     </button>
+
+                    {voiceEnabled && voices.length > 0 && (
+                        <select
+                            value={selectedVoiceUri}
+                            onChange={(e) => setSelectedVoiceUri(e.target.value)}
+                            className="bg-slate-800 text-slate-300 text-xs md:text-sm rounded-lg px-2 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500 max-w-[100px] md:max-w-[150px] truncate"
+                            title="Select AI Voice"
+                        >
+                            {voices.map(v => (
+                                <option key={v.voiceURI} value={v.voiceURI}>
+                                    {v.name.replace('Microsoft ', '').replace(' Desktop', '').replace('Google ', '')}
+                                </option>
+                            ))}
+                        </select>
+                    )}
 
                     <button
                         onClick={handleEndSession}
