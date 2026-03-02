@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { FileText, Upload, CheckCircle, AlertCircle, FileUp } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import mammoth from 'mammoth';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
 const ResumeReview = () => {
     const [resumeText, setResumeText] = useState('');
@@ -20,6 +19,7 @@ const ResumeReview = () => {
 
         setFileName(file.name);
         setLoading(true);
+        setLoadingMessage(`Extracting text from ${file.name}...`);
 
         try {
             if (file.type === 'text/plain') {
